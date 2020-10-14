@@ -1,0 +1,115 @@
+using System;
+using System.Reflection.Emit;
+
+namespace EncapsV2
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            BeerEncapsulator biere = new BeerEncapsulator();
+            Console.WriteLine("combien de cl de bière a tu ?");
+            biere.AvailableBeerVolume = Convert.ToInt32(Console.ReadLine());
+            if(biere.AvailableBeerVolume < 0)
+            {
+                while(biere.AvailableBeerVolume < 0)
+                {
+                    Console.WriteLine("besoin d'un nombre positif");
+                    Console.WriteLine("combien de cl de bière a tu ?");
+                    biere.AvailableBeerVolume = Convert.ToInt32(Console.ReadLine());
+                }
+            }
+            Console.WriteLine("combien de bouteille a tu ?");
+            biere.AvailableBottles = Convert.ToInt32(Console.ReadLine());
+            if (biere.AvailableBottles < 0)
+            {
+                while (biere.AvailableBottles < 0)
+                {
+                    Console.WriteLine("besoin d'un nombre positif");
+                    Console.WriteLine("combien de bouteille a tu ?");
+                    biere.AvailableBottles = Convert.ToInt32(Console.ReadLine());
+                }
+            }
+            Console.WriteLine("combien de capsule a tu ?");
+            biere.AvailableCapsules = Convert.ToInt32(Console.ReadLine());
+            if (biere.AvailableCapsules < 0)
+            {
+                while (biere.AvailableCapsules < 0)
+                {
+                    Console.WriteLine("besoin d'un nombre positif");
+                    Console.WriteLine("combien de capsules as tu ?");
+                    biere.AvailableBottles = Convert.ToInt32(Console.ReadLine());
+                }
+            }
+            Console.WriteLine("Combien de biere veut tu fabriquer ?");
+            biere.ProduceEncapsulatedBeerBottles(Convert.ToInt32(Console.ReadLine()));           
+        }
+    }
+
+    public class BeerEncapsulator
+    {
+        private double _availableBeerVolume = 100;
+        private int _availableCapsules = 5;
+        private int _availableBottles = 4;
+
+        public double AvailableBeerVolume
+        {
+            get { return _availableBeerVolume; }
+            set { _availableBeerVolume = value; }
+
+        }
+        public int AvailableCapsules
+        {
+            get { return _availableCapsules; }
+            set { _availableCapsules = value; }
+
+        }
+        public int AvailableBottles
+        {
+            get { return _availableBottles; }
+            set { _availableBottles = value; }
+
+        }
+        public void AddBeer()
+        {
+                _availableBeerVolume = _availableBeerVolume - 33;
+                _availableBottles = _availableBottles - 1;
+                _availableCapsules = _availableCapsules - 1;
+        }
+
+        public int ProduceEncapsulatedBeerBottles(int nombreBouteille)
+        {
+            int nombreBouteilleFabriquer = 0;
+
+            while(nombreBouteilleFabriquer < nombreBouteille)
+            {  
+                if (_availableBeerVolume > 33 && _availableBeerVolume >= 1 && _availableCapsules >= 1)
+                {
+                    AddBeer();
+                    nombreBouteilleFabriquer++;
+                }
+                else
+                {
+                    int nombreBouteilleRestante = nombreBouteille - nombreBouteilleFabriquer;
+                    Console.WriteLine("jai frabriquer " + nombreBouteilleFabriquer + " bières");
+                    if(nombreBouteilleRestante*33 > _availableBeerVolume)
+                    {
+                        Console.WriteLine("il manque " + (nombreBouteilleRestante * 33 - _availableBeerVolume) + " cl de biere pour terminer la fabrication");
+                    }
+                    if (nombreBouteilleRestante * 1 > _availableBottles)
+                    {
+                        Console.WriteLine("il manque " + (nombreBouteilleRestante * 1 - _availableBottles) + " bouteille pour terminer la fabrication");
+                    }
+                    if (nombreBouteilleRestante * 1 > _availableCapsules)
+                    {
+                        Console.WriteLine("il manque " + (nombreBouteilleRestante * 1 - _availableCapsules) + " capsules pour terminer la fabrication");
+                    }
+                    return 0;
+                }
+            }
+            Console.WriteLine(nombreBouteilleFabriquer);
+            return 0;
+        }
+
+    }
+}
